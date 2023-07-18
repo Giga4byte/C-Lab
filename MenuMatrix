@@ -1,0 +1,142 @@
+#include <stdio.h>
+
+void readmatrix (int matrix[][5], int r, int c);
+void addmatrices (int matrix1[][5], int matrix2[][5], int result[][5], int r, int c);
+void multiplymatrices (int matrix1[][5], int matrix2[][5], int result[][5], int r, int c);
+void transposematrix (int matrix [][5], int result[][5], int r, int c);
+void printmatrix (int matrix[][5], int r, int c);
+
+int main() 
+{
+    int matrix1[5][5], matrix2[5][5], result[5][5];
+    int r, c, choice;
+
+    printf("Enter the number of rows and columns for both matrices: ");
+    scanf("%d %d", &r, &c);
+    
+    printf("Enter the elements in matrix1: ");
+    readmatrix(matrix1, r, c);
+
+    printf("Enter the elements of matrix2: ");
+    readmatrix(matrix2,r,c);
+
+    printf("\nMenu:\n");
+    printf("1. Add Matrices\n");
+    printf("2. Multiply Matrices\n");
+    printf("3. Transpose Matrix1\n");
+    printf("4. Transpose Matrix2\n");
+    printf("5. Display Matrix1\n");
+    printf("6. Display Matrix2\n");
+
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) 
+   {
+        case 1:
+                {addmatrices(matrix1, matrix2, result, r, c);
+                printf("\nMatrix 1:\n");
+                printmatrix(matrix1, r, c);
+                printf("\nMatrix 2:\n");
+                printmatrix(matrix2, r, c);
+                printf("\nResultant Matrix (Addition):\n");
+                printmatrix(result, r,c);
+                break;}
+
+        case 2:
+               {multiplymatrices(matrix1, matrix2, result, r,c);
+                printf("\nMatrix 1:\n");
+                printmatrix(matrix1, r,c);
+                printf("\nMatrix 2:\n");
+                printmatrix(matrix2, r,c);
+                printf("\nResultant Matrix (Multiplication):\n");
+                printmatrix(result, r,c);
+                break;}
+
+         case 3:
+               {transposematrix(matrix1, result, r,c);
+                printf("\nMatrix 1:\n");
+                printmatrix(matrix1, r,c);
+                printf("\nResultant Matrix (Transpose):\n");
+                printmatrix(result, r,c);
+                break;}
+
+         case 4:
+               {transposematrix(matrix2, result, r,c);
+                printf("\nMatrix 2:\n");
+                printmatrix(matrix2, r,c);
+                printf("\nResultant Matrix (Transpose):\n");
+                printmatrix(result, r,c);
+                break;}
+
+         case 5:
+               {printf(“\nMatrix 1\n”);
+                printmatrix(matrix1, r,c);
+                break;}
+
+         case 6:
+               {printf(“\nMatrix 2\n”);
+                printmatrix(matrix2, r,c);
+                break;}
+
+
+        default:
+            {printf("Invalid choice.\n");}
+    }
+
+    return 0;
+}
+
+void readmatrix(int matrix[][5], int r, int c) 
+{
+    int i, j;
+    for (i = 0; i < r; i++) 
+       {
+        for (j = 0; j < c; j++) 
+          {scanf("%d", &matrix[i][j]);}
+       }
+}
+
+void addmatrices(int matrix1[][5], int matrix2[][5], int result[][5], int r, int c) {
+    int i, j;
+
+    for (i = 0; i < r; i++) {
+        for (j = 0; j < c; j++) {
+            result[i][j] = matrix1[i][j] + matrix2[i][j];
+        }
+    }
+}
+
+void multiplymatrices( int matrix1[][5], int matrix2[][5], int result[][5], int r, int c) {
+    int i, j, k;
+
+    for (i = 0; i < r; i++) {
+        for (j = 0; j < c; j++) {
+            result[i][j] = 0;
+            for (k = 0; k < c; k++) {
+                result[i][j] += matrix1[i][k] * matrix2[k][j];
+            }
+        }
+    }
+}
+
+void transposematrix (int matrix [][5], int result[][5], int r, int c)
+{
+ int i,j;
+ for (i=0;i<c;i++)
+ {
+     for (j=0;j<r;j++)
+   {result[i][j]=matrix[j][i];}
+ }
+}
+
+void printmatrix(int matrix[][5], int r, int c) {
+    int i, j;
+
+    for (i = 0; i < r; i++) {
+        for (j = 0; j < c; j++) {
+            printf("%d\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
