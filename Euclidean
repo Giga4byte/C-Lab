@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <math.h>
+ 
+struct point
+{
+    double x;
+    double y;
+};
+
+void main()
+{
+    struct point p1, p2;
+    double distance1, distance2, sumofdistances;
+    printf("Enter point1 (x,y): ");
+    scanf("%lf%lf", &p1.x,&p1.y);
+    printf("Enter point2 (x,y): ");
+    scanf("%lf%lf", &p2.x,&p2.y);
+    
+    distance1=sqrt(pow((p2.x-p1.x),2)+pow((p2.y-p1.y),2));
+    distance2=sqrt(pow((p1.x-p2.x),2)+pow((p1.y-p2.y),2));
+    sumofdistances=distance1+distance2;
+    
+    printf("Distance between point 1 and 2: %lf\n", distance1);
+    printf("Distance between point 2 and 1: %lf\n", distance2);
+    printf("Sum of distances: %lf\n", sumofdistances);
+}
