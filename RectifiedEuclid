@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <math.h>
+
+struct euclidean
+{
+    int x;
+    int y;
+};
+
+struct euclidean point1;
+struct euclidean point2;
+struct euclidean point3;
+struct euclidean point4;
+
+float calcDistance(int x1, int x2, int y1, int y2);
+
+int main() {
+    float distance1, distance2;
+
+    printf("Enter the X co-ordinate of 1st point: ");
+    scanf("%d", &point1.x);
+    printf("Enter the Y co-ordinate of 1st point: ");
+    scanf("%d", &point1.y);
+
+    printf("Enter the X co-ordinate of 2nd point: ");
+    scanf("%d", &point2.x);
+    printf("Enter the Y co-ordinate of 2nd point: ");
+    scanf("%d", &point2.y);
+
+    printf("Enter the X co-ordinate of 3rd point: ");
+    scanf("%d", &point3.x);
+    printf("Enter the Y co-ordinate of 3rd point: ");
+    scanf("%d", &point3.y);
+
+    printf("Enter the X co-ordinate of 4th point: ");
+    scanf("%d", &point4.x);
+    printf("Enter the Y co-ordinate of 4th point: ");
+    scanf("%d", &point4.y);
+
+    printf("The distance between points one and two is: ");
+    distance1 = calcDistance(point1.x, point2.x, point1.y, point2.y);
+    printf("%f\n", distance1);
+
+    printf("The distance between points three and four is: ");
+    distance2 = calcDistance(point3.x, point4.x, point3.y, point4.y);
+    printf("%f\n", distance2);
+
+    printf("The sum of distances is: %f\n", distance1 + distance2);
+
+    return 0;
+}
+
+float calcDistance(int x1, int x2, int y1, int y2) {
+    int deltax, deltay;
+    float distance;
+
+    deltax = x2 - x1;
+    deltay = y2 - y1;
+    deltax = deltax * deltax;
+    deltay = deltay * deltay;
+    distance = sqrt(deltax + deltay);
+
+    return distance;
+}
