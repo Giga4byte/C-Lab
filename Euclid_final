@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+
+struct point
+{
+    double x;
+    double y;
+};
+
+int main() {
+    struct point p1, p2, p3, p4;
+    double distance1, distance2;
+
+    printf("Enter the X and Y co-ordinates point1: ");
+    scanf("%lf %lf", &p1.x, &p1.y);
+    
+    printf("Enter the X and Y co-ordinates point2: ");
+    scanf("%lf %lf", &p2.x, &p2.y);
+    
+    printf("Enter the X and Y co-ordinates point3: ");
+    scanf("%lf %lf", &p3.x, &p3.y);
+    
+    printf("Enter the X and Y co-ordinates point4: ");
+    scanf("%lf %lf", &p4.x, &p4.y);
+
+    double deltax, deltay;
+    
+    // Calculate the distance between points one and two
+    deltax = p2.x - p1.x;
+    deltay = p2.y - p1.y;
+    distance1 = sqrt(pow(deltax, 2) + pow(deltay, 2));
+    printf("The distance between points one and two is: %f\n", distance1);
+
+    // Calculate the distance between points three and four
+    deltax = p4.x - p3.x;
+    deltay = p4.y - p3.y;
+    distance2 = sqrt(pow(deltax, 2) + pow(deltay, 2));
+    printf("The distance between points three and four is: %f\n", distance2);
+
+    printf("The sum of distances is: %f\n", distance1 + distance2);
+
+    return 0;
+}
