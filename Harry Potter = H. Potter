@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+
+// Define the employee structure
+struct Employee {
+    char firstName[50];
+    char lastName[50];
+    int employeeID;
+};
+
+// Function to get the initials of the name
+void getInitials(char name[], char initials[]) {
+    int j = 0;
+    for (int i = 0; name[i] != '\0'; i++) {
+        if (name[i] != ' ' && (i == 0 || name[i - 1] == ' ')) {
+            initials[j++] = name[i];
+        }
+    }
+    initials[j] = '\0';
+}
+
+int main() {
+    struct Employee emp;
+
+    // Get the employee's first name
+    printf("Enter employee's first name: ");
+    gets(emp.firstName);
+
+    // Get the employee's last name
+    printf("Enter employee's last name: ");
+    gets(emp.lastName);
+
+    // Get the employee's ID
+    printf("Enter employee ID: ");
+    scanf("%d", &emp.employeeID);
+
+    char initials[50];
+    getInitials(emp.firstName, initials);
+
+    // Output the employee's information with formatted name
+    printf("\nEmployee Information:\n");
+    printf("Name: %s. %s\n", initials, emp.lastName);
+    printf("Employee ID: %d\n", emp.employeeID);
+
+    return 0;
+}
