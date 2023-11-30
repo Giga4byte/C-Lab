@@ -1,0 +1,97 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class CalculatorGUI extends Frame implements ActionListener {
+    Label r, rLengthLabel, rBreadthLabel, c, cRadiusLabel, t, tBreadthLabel, tHeightLabel, resultLabel;
+    TextField rLengthField, rBreadthField, cRadiusField, tBreadthField, tHeightField, areaField;
+    Button rButton, cButton, tButton;
+
+    CalculatorGUI () {
+        super ("Calculator For Area of Shapes");
+
+        setLayout(null);
+        setSize(500, 500);
+        setVisible(true);
+
+        r = new Label ("RECTANGLE:");
+        rLengthLabel = new Label ("Enter length:");
+        rBreadthLabel = new Label ("Enter breadth:");
+        c = new Label ("CIRCLE:");
+        cRadiusLabel = new Label ("Enter radius:");
+        t = new Label ("TRIANGLE:");
+        tBreadthLabel = new Label ("Enter breadth:");
+        tHeightLabel = new Label ("Enter height:");
+        resultLabel = new Label ("RESULTLABEL:");
+
+        rLengthField = new TextField (10);
+        rBreadthField = new TextField (10);
+        cRadiusField = new TextField (10);
+        tBreadthField = new TextField (10);
+        tHeightField = new TextField (10);
+        areaField = new TextField (10);
+
+        rButton = new Button ("Rectangle Area");
+        cButton = new Button ("Circle Area");
+        tButton = new Button ("Triangle Area");
+
+        add (r); add(rLengthLabel); add(rBreadthLabel); 
+        add (c); add(cRadiusLabel); add(t);
+        add (tBreadthLabel); add(tHeightLabel); add(resultLabel);
+        add (rLengthField); add(rBreadthField); add(cRadiusField);
+        add (tBreadthField); add(tHeightField); add(areaField);
+        add (rButton); add(cButton); add(tButton);
+
+        r.setBounds(10,30,100,20);
+        rLengthLabel.setBounds(10,50,100,20);
+        rLengthField.setBounds(10,70,100,20);
+        rBreadthLabel.setBounds(10,90,100,20);
+        rBreadthField.setBounds(10,110,100,20);
+        rButton.setBounds(10,130,100,20);
+
+        c.setBounds(10,150,100,20);
+        cRadiusLabel.setBounds(10,170,100,20);
+        cRadiusField.setBounds(10,190,100,20);
+        cButton.setBounds(10,210,100,20);
+
+        t.setBounds(10,230,100,20);
+        tBreadthLabel.setBounds(10,250,100,20);
+        tBreadthField.setBounds(10,270,100,20);
+        tHeightLabel.setBounds(10,290,100,20);
+        tHeightField.setBounds(10,310,100,20);
+        tButton.setBounds(10,330,100,20);
+
+        resultLabel.setBounds(10,350,100,20);
+        areaField.setBounds(10,370,100,20);
+
+        rButton.addActionListener(this);
+        cButton.addActionListener(this);
+        tButton.addActionListener(this);
+    }
+
+    public void actionPerformed (ActionEvent e) {
+        try {
+            if (e.getSource() == rButton) {
+                int length = Integer.parseInt (rLengthField.getText());
+                int breadth = Integer.parseInt (rBreadthField.getText());
+                int rect_area = length*breadth;
+                areaField.setText(rect_area + " ");
+            }
+            else if (e.getSource() == cButton) {
+                double radius = Double.parseDouble (cRadiusField.getText());
+                double c_area = 3.14 * radius;
+                areaField.setText(c_area + " ");
+            }
+            else if (e.getSource() == tButton) {
+                int breadth = Integer.parseInt (tBreadthField.getText());
+                int height = Integer.parseInt (tHeightField.getText());
+                int t_area = (breadth*height)/2;
+                areaField.setText(t_area + " ");
+            }
+        }
+        catch (ArithmeticException ae)
+        { System.out.println ("ERROR: " + ae.getMessage()); }
+    }
+
+    public static void main (String args[])
+    { CalculatorGUI calc = new CalculatorGUI(); }
+}
