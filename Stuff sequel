@@ -1,0 +1,178 @@
+/* The empid, name, designation, nationality, year of joining and salary of all the
+employees of a Multinational Company are stored in a table. */
+
+import java.sql.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class EmployeeDemoSql extends JFrame implements ActionListener {
+    // (ii) to display the details of a given employee using empid (use GUI)
+    JTextField empidField, enameField, designationField, salaryField; 
+    JLabel empidLabel, enameLabel, salaryLabel, designationLabel;
+    JButton displayButton;
+
+    public EmployeeDemoSql() {
+        super("Displaying with Employee ID");
+        setLayout(null);
+        setSize(400, 400);
+        setVisible(true);
+
+        empidLabel = new JLabel("Enter the ID:");
+        empidField = new JTextField(10);
+
+        enameLabel = new JLabel("NAME:");
+        enameField = new JTextField(10);
+        designationLabel = new JLabel("DESIGNATION:");
+        designationField = new JTextField(10);
+        salaryLabel = new JLabel("SALARY:");
+        salaryField = new JTextField(10);
+
+        displayButton = new JButton("RETRIEVE");
+        displayButton.addActionListener(this);
+
+        add(empidLabel); add(empidField); add(enameLabel);
+        add(enameField); add(designationLabel); add(designationField);
+        add(salaryLabel); add(salaryField); add(displayButton);
+
+        // GETTING THE DATA
+        empidLabel.setBounds(20, 40, 200, 25);
+        empidField.setBounds(20, 60, 100, 25);
+
+        displayButton.setBounds(150, 60, 150, 25);
+
+        // SETTING THE O/P
+        enameLabel.setBounds(20, 80, 200, 25);
+        enameField.setBounds(20, 100, 100, 25);
+        designationLabel.setBounds(20, 120, 200, 25);
+        designationField.setBounds(20, 140, 100, 25);
+        salaryLabel.setBounds(20, 160, 200, 25);
+        salaryField.setBounds(20, 180, 100, 25);
+    } 
+
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/MNC", "root", "root");
+            Statement statement = connection.createStatement();
+    
+            if (ae.getSource() == displayButton) {
+                String empid = empidField.getText();
+                String query = "SELECT * FROM EMPLOYEE WHERE EMPID = " + empid;
+                ResultSet resultSet = statement.executeQuery(query);
+    
+                if (resultSet.next()) {
+                    String ename = resultSet.getString("ENAME");
+                    String designation = resultSet.getString("DESIGNATION");
+                    double salary = resultSet.getDouble("SALARY");
+    
+                    enameField.setText(ename);
+                    designationField.setText(designation);
+                    salaryField.setText(String.valueOf(salary));
+                } else {
+                    System.out.println("ERROR!");
+                }
+    
+                resultSet.close();
+            }
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    // (i) to display the details of all the employees in the descending order of their salary
+    public void displayDetails1() {
+        try {
+            int rows = 0;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/MNC", "root", "root");
+            Statement stm = con.createStatement();
+            String qry = "SELECT * FROM EMPLOYEE ORDER BY SALARY DESC";
+            ResultSet rs = stm.executeQuery(qry);
+            while (rs.next()) {
+                System.out.println(rs.getInt(1) + "\t" + rs.getString(2) + "\t" + rs.getString(3) + "\t" + rs.getString(4) + "\t" + rs.getInt(5) + "\t" + rs.getDouble(6));
+                rows++;
+            }
+            if (rows > 0) {
+                System.out.println(rows + " rows retrieved!");
+            } else {
+                System.out.println("Data not found");
+            }
+            rs.close();
+            stm.close();
+            con.close();
+        } catch(ClassNotFoundException e) { 
+            System.out.println (e.getMessage()); 
+        } catch(SQLException e) { 
+            System.out.println (e.getMessage()); 
+        }
+    } 
+
+    // (iii) to display the details of the employees of a given nationality and a given designation
+    public void displayDetails2(String nationality, String designation) {
+        try {
+            Scanner s = new Scanner (System.in);
+            System.out.println ("Enter nationality:");
+            String nationality = s.nextLine();
+            System.out.println ("Enter designation:");
+            String designation = s.nextLine();
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/MNC", "root", "root");
+            Statement stmt = connect.createStatement();
+
+            String qry = "SELECT * FROM EMPLOYEE WHERE NATIONALITY = '" + nationality + "' AND DESIGNATION = '" + designation + "'";
+            ResultSet resSet = stmt.executeQuery(qry);
+
+            while (resSet.next()) {
+                int empid = resSet.getInt("EMPID");
+                String ename = resSet.getString("ENAME");
+
+                System.out.println(empid + "\t" + ename + "\t" + nationality + "\t" + designation);
+            }
+            s.close();
+            resSet.close();
+            stmt.close();
+            connect.close();
+        } catch(ClassNotFoundException e) { 
+            System.out.println (e.getMessage()); 
+        } catch(SQLException e) { 
+            System.out.println (e.getMessage()); 
+        }
+    }
+
+    // (iv) to delete the details of the employees who joined before a given year
+    public void deleteDetails() {
+        try {
+            Scanner s = new Scanner(System.in);
+            System.out.println ("Enter the year:");
+            int year = s.nextInt();
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/MNC", "root", "root");
+            Statement stm = con.createStatement();
+            String qry = "DELETE FROM EMPLOYEE WHERE YEAR < " + year;
+            int rowsDel = stm.executeUpdate(qry);
+
+            System.out.println(rowsDel + " rows have been deleted.");
+
+            con.close();
+            stm.close();
+            s.close();
+        } catch(ClassNotFoundException e) { 
+            System.out.println (e.getMessage()); 
+        } catch(SQLException e) { 
+            System.out.println (e.getMessage()); 
+        }
+    }
+    
+    public static void main(String args[]) {
+            EmployeeDemoSql emp = new EmployeeDemoSql();
+            emp.displayDetails1();
+            emp.displayDetails2();
+            emp.deleteDetails();
+    }
+}
