@@ -112,7 +112,7 @@ public class EmployeeDemoSql extends JFrame implements ActionListener {
     } 
 
     // (iii) to display the details of the employees of a given nationality and a given designation
-    public void displayDetails2(String nationality, String designation) {
+    public void displayDetails2() {
         try {
             Scanner s = new Scanner (System.in);
             System.out.println ("Enter nationality:");
