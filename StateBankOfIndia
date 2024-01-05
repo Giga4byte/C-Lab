@@ -1,48 +1,107 @@
 import java.util.*;
 import java.io.*;
 
-clas
+class InsufficientBalanceException extends Exception {
+	InsufficientBalanceException (String message)
+	{	 super (message);	}
+}
 
-class StateBankOfIndia {
-    public static void main (String args[]) {
-        double amt;
-        try {
-            Scanner s = new Scanner(System.in);
-            System.out.println("W);
-                System.out.println("1. View Balance");
-                System.out.println("2. Deposit Money");
-                System.out.println("3. Withdraw Money");
-                System.out.println("4. Transfer Money");
-                System.out.println("5. Exit");
-                System.out.println();
+class StateBankIndia {
+	public static void main (String args[]) {
+		double amt, AccBal = 0.0, RecBal = 0.0;
+		FileWriter fwriter = null;
+		try {
+			Scanner s = new Scanner (System.in);
+			System.out.println ("Welcome to State Bank Of India ATM");
+			System.out.println ();
+			System.out.println ("Enter the account holder's name:");
+			String AccName = s.nextLine ();
+			System.out.println ("Enter the account number: ");
+			String AccNo = s.nextLine ();
 
-                while (true)
-                {
-                    System.out.print ("Enter the choice: ");
-                    int choice = s.nextInt ();
-
-                        case 3: System.out.print ("Enter the amount to withdraw: Rs.");
-                                amt = s.nextDouble ();
-                                if (amt > AccBal) 
-                                {  throw new InsufficientBalanceException("Insufficient funds!");  }
-                                else
-                                {  AccBal -= amt;  }
-                                System.out.println ("ACCOUNT BALANCE: ");
-                                System.out.println ("Rs." + AccBal);
-                                System.out.println();
-                                break;
-
-                        case 4: S
-                                {  throw new InsufficientBalanceException("Insufficient funds!");  }
-                                else
-                                {  AccBal -= amt;  }
-                                RecBal += amt;
-                                System.out.println ("ACCOUNT BALANCE: ");
-                                System.out.println ("Rs." + AccBal);
-                                System.out.println();
-                           
-            } // try2 statement
-            catch (Exception e) {
-                // Handle specific exceptions or provide a generic message
-                System.out.println("Error during ATM operation: " + e.getMessage());
-   
+			try {
+				fwriter = new FileWriter (AccNo + ".txt");
+				fwriter.write ("ACCOUNT NUMBER: " + AccNo + "\n");
+				System.out.print ("Enter the balance: Rs.");
+				AccBal = s.nextDouble ();
+			} 
+			catch (IOException e) {
+				System.out.println ("Error writing to file: " + e.getMessage());
+			} 
+			
+			try {
+					fwriter.write ("CURRENT BALANCE: " + AccBal + "\n");
+					System.out.println ();
+					System.out.println ("ATM TRANSACTION MENU");
+					System.out.println ("1. View Balance");
+					System.out.println ("2. Deposit Money");
+					System.out.println ("3. Withdraw Money");
+					System.out.println ("4. Transfer Money");
+					System.out.println ("5. Exit");
+					System.out.println ();
+					
+					while (true)
+					{
+						System.out.println ("Enter your choice: ");
+						int choice = s.nextInt ();
+						switch (choice)
+						{
+							case 1: System.out.println ("ACCOUNT BALANCE: Rs." + AccBal);
+									System.out.println ();
+									break;
+							case 2: System.out.println ("Enter the amount to deposit: ");
+									amt = s.nextDouble ();
+									AccBal += amt;
+									System.out.println ("ACCOUNT BALANCE: Rs." + AccBal);
+									System.out.println ();
+									break;
+							case 3: System.out.println ("Enter the amount to withdraw: ");
+									amt = s.nextDouble ();
+									if (amt > AccBal)
+									{	throw new InsufficientBalanceException ("Insufficient Funds!");	}
+									else
+									{	AccBal -= amt;
+										System.out.println ("ACCOUNT BALANCE: Rs." + AccBal);
+										System.out.println (); 	}
+									break;
+							case 4: System.out.println ("Enter the recipient's bank account: ");
+									s.nextLine ();
+									String RAccNo = s.nextLine ();
+									System.out.println ("Enter the amount to deposit: ");
+									amt = s.nextDouble ();
+									if (amt > AccBal)
+									{	throw new InsufficientBalanceException ("Insufficient Funds!");	}
+									else
+									{	AccBal -= amt;
+										RecBal = amt;
+										System.out.println ("ACCOUNT BALANCE: Rs." + AccBal);
+										System.out.println ("RECIPIENT BALANCE: Rs." + RecBal);
+										System.out.println (); 	}
+									break;
+							case 5: System.out.println ("TERMINATING.");
+									return;
+							default: System.out.println ("WRONG CHOICE.");
+						}
+					} 
+			} 
+			catch (NullPointerException e) {
+				System.out.println ("Error while writing to file: " + e.getMessage());
+			} 
+		} 
+		
+		catch (Exception e) {
+			System.out.println ("Error during ATM operation: "+e.getMessage());
+		} 
+		
+		finally {
+			try {
+				fwriter.write ("FINAL ACC BALANCE: " + AccBal + "\n");
+				fwriter.write ("RECIPIENT BALANCE: " + RecBal + "\n");
+				fwriter.close ();
+			}
+			catch (IOException e) {
+				System.out.println ("Error closing: " + e.getMessage());
+		}
+	}
+  }
+}
